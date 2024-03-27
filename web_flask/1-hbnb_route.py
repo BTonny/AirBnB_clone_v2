@@ -1,24 +1,26 @@
 #!/usr/bin/python3
-"""
-This is a simple module that starts a Flask web application
-listening on 0.0.0.0, port 5000
-"""
-from flask import Flask
-from markupsafe import escape
+"""Start a Flask web applicaton"""
 
+from flask import Flask
 app = Flask(__name__)
 
-app.config['RESTFUL_URL_PREFIX'] = False
+
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    """
+    Routing to root, strict_slashes ensure
+    the URL works when it ends both with or without the /
+    """
+    return "Hello HBNB!"
 
 
-@app.route('/')
-def index():
-    return 'Hello HBNB!'
-
-
-@app.route('/hbnb')
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    return 'HBNB'
+    """
+    Routing to /hbnb, strict_slashes ensure
+    the URL works when it ends both with or without the /
+    """
+    return "HBNB"
 
 
 if __name__ == "__main__":

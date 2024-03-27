@@ -1,40 +1,47 @@
 #!/usr/bin/python3
-"""
-This is a simple module that starts a Flask web application
-listening on 0.0.0.0, port 5000
-"""
-from flask import Flask
-from markupsafe import escape
+"""Start a Flask web applicaton"""
 
+from flask import Flask
 app = Flask(__name__)
 
-app.config['RESTFUL_URL_PREFIX'] = False
+
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    """
+    Routing to root, strict_slashes ensure
+    the URL works when it ends both with or without the /
+    """
+    return "Hello HBNB!"
 
 
-@app.route('/')
-def index():
-    return 'Hello HBNB!'
-
-
-@app.route('/hbnb')
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    return 'HBNB'
+    """
+    Routing to /hbnb, strict_slashes ensure
+    the URL works when it ends both with or without the /
+    """
+    return "HBNB"
 
 
-@app.route('/c/<text>')
-def c_text(text):
-    return f'C {escape(text).replace("_", " ")}'
+@app.route('/c/<text>', strict_slashes=False)
+def c_is_fun(text):
+    """Routing to C using Variables"""
+    text = text.replace('_', ' ')
+    return "C {}".format(text)
 
 
-@app.route('/python/')
-@app.route('/python/<text>')
-def py_text(text='is cool'):
-    return f'Python {escape(text).replace("_", " ")}'
+@app.route('/python/', defaults={'text': 'is_cool'}, strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def python_is_cool(text):
+    """Routing to python with default value using Variables"""
+    text = text.replace('_', ' ')
+    return "Python {}".format(text)
 
 
-@app.route('/number/<int:n>')
-def show_number(n):
-    return f'{escape(n)} is a number'
+@app.route('/number/<int:n>', strict_slashes=False)
+def is_a_number(n):
+    """Routing to n for intergers only"""
+    return "{} is a number".format(n)
 
 
 if __name__ == "__main__":
